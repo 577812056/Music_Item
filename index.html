@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>动态分享</title>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <style>
+        .haedimg {
+
+            background-color: #999;
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+        }
+
+        .haedimg .img {
+            width: 100px;
+            border-radius: 50%;
+            height: 100px;
+        }
+
+        .head_text {
+            font-weight: bold;
+            height: 50px;
+            line-height: 50px;
+            font-size: 28px;
+        }
+
+        #share_head {
+            margin-top: 20px;
+        }
+
+        .SongList {
+            width: 100%;
+        }
+
+        .ico:hover img {
+            transition: transform .5s ease-out;
+            -o-transition: transform .5s ease-out;
+            -webkit-transition: transform .5s ease-out;
+            -moz-transition: transform .5s ease-out;
+            transform: scale(1.2);
+            -ms-transform: scale(1.2);
+            -webkit-transform: scale(1.2);
+        }
+
+        #icoButtom {
+            position: fixed;
+            bottom: 7%;
+            right: 5%;
+            width: 100px;
+            height: 50px;
+            font-size: 16px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 50px;
+            border: #999 2px solid;
+            background-color: #fff;
+        }
+
+        #postImgs {
+            width: 100%;
+            padding-left: 5px;
+        }
+
+        .postImgBody {
+            background-color: #fff;
+            width: 28%;
+            margin: 15px;
+            height: 33%;
+            display: inline-block;
+            padding: 5px;
+            /* border-radius: 10%; */
+            border: #999 1px solid;
+        }
+
+        .postImg {
+            width: 100%;
+            height: 100%;
+            /* border-radius: 10%; */
+
+        }
+
+        .postImgBody:hover {
+            transition: transform .5s ease-out;
+            -o-transition: transform .5s ease-out;
+            -webkit-transition: transform .5s ease-out;
+            -moz-transition: transform .5s ease-out;
+            transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            z-index: 99;
+        }
+
+
+        #magnifyImgBody {
+            width: 92%;
+            height: 100%;
+            background-color: #fff;
+            border: #999 1px solid;
+            margin: 20px;
+            padding: 10px;
+            /* border-radius:10%; */
+        }
+    </style>
+    </style>
+    <script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript" src="js/Element.js"></script>
+
+<body>
+    <div id="aaa" v-loading.fullscreen.lock="fullscreenLoading">
+        <el-container>
+            <el-header style="height:20%;">
+                <div id="share_head">
+                    <el-row type="flex" class="row-bg">
+                        <el-col :span="3" style="margin-right:10px;">
+                            <div class="haedimg" style="border-radius: 50%;">
+                                <img @click="showImg()" class="img" v-bind:src="shareShow.headImg" />
+                            </div>
+                        </el-col>
+                        <el-col :span="21">
+                            <div class="head_text">{{shareShow.name}}</div>
+                            <div class="head_text" style="color: #999;font-size:26px;">{{shareShow.createTime}}</div>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-header>
+            <el-main style="height:60%;padding:0px;">
+                <div id="share_body">
+                    <el-row type="flex" class="row-bg">
+                        <el-col :span="24" style="font-size:28px;margin-left:25px;margin-top:25px;">
+                            {{shareShow.text}}
+                        </el-col>
+                    </el-row>
+                    <div id="imgBody" style="margin:0px;padding:0px;" v-if="shareShow.type==1&&imgStyle==true">
+                        <div id="magnifyImgBody" @click="showImg()" v-if="xurl!=''">
+                            <el-image style="width: 100%;height: 100%;" :src="xurl" fit="cover"></el-image>
+                        </div>
+                        <div id="postImgs">
+                            <div v-for="url in urls" class="postImgBody">
+                                <el-image @click="ximg(url)" class="postImg" :src="url" fit="cover"></el-image>
+                            </div>
+                        </div>
+                    </div>
+                    <el-row type="flex" class="row-bg">
+                        <el-col :span="24" style="margin-top: 20px;">
+                            <el-row>
+                                <el-col :span="13" style="margin-left:20px;">
+                                    <div class="source" v-if="shareShow.type==1&&imgStyle==false"
+                                        style="border: #999 1px solid;padding: 10px;">
+                                        <div>
+                                            <div class="demo-image__lazy" style="height:600px;overflow-y: auto;">
+                                                <el-image v-for="url in urls" :preview-src-list="urls" :key="url"
+                                                    :src="url"></el-image>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </el-col>
+                            </el-row>
+                            <template>
+                                <div id="post_video" v-if="shareShow.type==0">
+                                    <video controls="" style="width: 95%;margin:20px;" autoplay="" name="media"
+                                        v-bind:src="shareShow.links[1]">
+                                    </video>
+                                </div>
+                            </template>
+                            <el-row type="flex" class="row-bg">
+                                <el-col :span="3"
+                                    style="font-size:25px;height:100px;line-height:100px;margin-left:20px;color: #999;">
+                                    点赞{{shareShow.likes}}次
+                                </el-col>
+                                <el-col :span="5"
+                                    style="font-size:25px;height:100px;line-height:100px;margin-left:20px;color: #999;">
+                                    所在地:{{shareShow.city}}
+                                </el-col>
+                                <el-col :span="2" class="ico" :offset="11" style="height:100px;line-height:100px;">
+                                    <img @click="open()" src="img/b12c8e1fb9d97588e88c41908a01933.png"
+                                        style="margin-top:20px;" />
+                                </el-col>
+                                <el-col :span="2" class="ico" style="height:100px;line-height:100px;">
+                                    <img @click="open()" src="img/1e81d9ccbd924a2c0aa6e69fcbf0fd9.png"
+                                        style="margin-top:20px;" />
+                                </el-col>
+                                <el-col :span="2" class="ico" style="height:100px;line-height:100px;">
+                                    <img @click="open()" src="img/3784b925d38f2a7b06ee8c8aa6e9c42.png"
+                                        style="margin-top:20px;" />
+                                </el-col>
+                            </el-row>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-main>
+            <el-foote>
+                <el-row>
+                    <el-col :span="24" style="margin: 20px;margin-top:150px;">
+                        <img src="img/QQ图片20200923124507.gif" style="width: 100%;" />
+                    </el-col>
+                </el-row>
+            </el-foote>
+        </el-container>
+        <el-dialog title="莫忘淘下载二维码" top="40vh" :visible.sync="centerDialogVisible" style="padding:0px;" width="60%"
+            center>
+            <span><img style="width:100%;" src="img/f1b6c71b3cce9e8ed10f6129e84538d.png" /></span>
+        </el-dialog>
+        <div id="icoButtom" @click="imgStyle=!imgStyle">切换样式</div>
+    </div>
+</body>
+
+<script>
+    new Vue({
+        el: '#aaa',
+        data: {
+            visible: false,
+            shareShow: {
+                postId: 0,
+                text: "",
+                type: 0,
+                links: [],
+                city: "",
+                likes: 0,
+                createTime: "",
+                name: "",
+                headImg: ""
+            },
+            xurl: "",
+            imgStyle: true,
+            fullscreenLoading: true,
+            ShowIndex: 0,
+            postType: 0,
+            urls: [],
+            centerDialogVisible: false,
+        },
+        methods: {
+            showImg() {
+                alert(this.shareShow.headImg)
+            },
+            open() {
+                this.centerDialogVisible = true
+            },
+            ximg(url) {
+                this.xurl = url;
+            },
+            showImg() {
+                this.xurl = ""
+            }
+        },
+        mounted() {
+            let _this = this;
+            var search = window.location.search;
+            let id = search.split("verify=")[1]
+
+            let po = {
+                verify: id,
+            }
+            $.ajax({
+                type: "POST",
+                url: "http://api.mowangtao.com/moment/shareShow",
+                data: JSON.stringify(po),
+                headers: {
+                    'Content-Type': "application/json",
+                },
+                dataType: "json",
+                success: function (data) {
+                    _this.shareShow = data.data;
+                    if (null != data.data) {
+                        if (_this.shareShow.type == 1) {
+                            _this.urls = _this.shareShow.links;
+                        }
+                        _this.fullscreenLoading = false;
+                    }
+                }, error: function (a) {
+
+                }
+            });
+        }
+    })
+</script>
+
+</html>

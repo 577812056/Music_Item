@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			background-color: rgba(44, 210, 216, 0.438);
+			overflow: hidden;
+		}
+
+		div {
+			height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #fff;
+			font-size: 50px;
+			font-family: "楷体";
+		}
+
+		span {
+			width: 50px;
+			height: 50px;
+			background: #55b9f3;
+			border-radius: 50%;
+			position: absolute;
+			box-shadow: 20px 20px 60px #489dcf, -20px -20px 60px #62d5ff;
+			animation: blow 4s linear infinite;
+			-webkit-animation: blow 4s linear infinite;
+		}
+
+		/*这里是定义里一个动画效果*/
+
+		@keyframes blow {
+			0% {
+				transform: translate(-50%, -50%);
+				/*这里是定义初始透明度为1*/
+				opacity: 1;
+				/*
+				这里是初始滤镜效果
+				给图像应用色相旋转。"angle"一值设定图像会被调整的色环角度值。
+				值为0deg，则图像无变化。若值未设置，默认值是0deg。
+				该值虽然没有最大值，超过360deg的值相当于又绕一圈。
+				*/
+				filter: hue-rotate(0deg);
+				/*这里是浏览器兼容*/
+				-webkit-transform: translate(-50%, -50%);
+				-moz-transform: translate(-50%, -50%);
+				-ms-transform: translate(-50%, -50%);
+				-o-transform: translate(-50%, -50%);
+			}
+
+			100% {
+				/*
+				2D转化
+				这里是从自身向上平移
+				*/
+				transform: translate(-50%, -1000%);
+				/*这里是定义结束时透明度为0*/
+				opacity: 0;
+				/*
+				这里是结束滤镜效果
+				给图像应用色相旋转。"angle"一值设定图像会被调整的色环角度值。
+				值为0deg，则图像无变化。若值未设置，默认值是0deg。
+				该值虽然没有最大值，超过360deg的值相当于又绕一圈。
+				*/
+				filter: hue-rotate(720deg);
+				/*这里是浏览器兼容*/
+				-webkit-transform: translate(-50%, -1000%);
+				-moz-transform: translate(-50%, -1000%);
+				-ms-transform: translate(-50%, -1000%);
+				-o-transform: translate(-50%, -1000%);
+				-webkit-filter: hue-rotate(720deg);
+			}
+		}
+	</style>
+</head>
+
+<body ondblclick="onbreak()">
+	<div>
+
+	</div>
+	<span></span>
+
+</body>
+<script>
+	/*这里是给整个页面添加了一个鼠标移动的监听事件 e为事件对象*/
+	document.addEventListener(`mousemove`, function (e) {
+		/*这里获取元素节点*/
+		let oBody = document.body;
+		let oSpan = document.createElement(`span`);
+		/*浏览器兼容*/
+		e = e || window.Event;
+		// let x = e.clientX;
+		// let y = e.clientY;
+		/*获取相关参数*/
+		oSpan.style.left = e.clientX + `px`;
+		oSpan.style.top = e.clientY + `px`;
+		/*设定随机数存储在size中*/
+		let size = Math.random() * 120;
+		/*给节点赋值参数数值*/
+		oSpan.style.width = 30 + size + `px`;
+		oSpan.style.height = 30 + size + `px`;
+		/*在body中添加span标签*/
+		oBody.appendChild(oSpan);
+		/*设置定时器 间隔时间为2000毫秒*/
+		setTimeout(function () {
+			/*清除ospan节点*/
+			oSpan.remove();
+		}, 3000);
+	});
+
+	function onbreak() {
+		window.location.href = "index.html";
+	}
+</script>
+
+</html>

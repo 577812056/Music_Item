@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>音乐主页</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <style>
+        /**全局css**/
+        * {
+            margin:
+                0px;
+            padding:
+                0px;
+        }
+
+        audio {
+            display:
+                none;
+        }
+
+        /**主页显示**/
+        .bg {
+            background: url('./img/aThtTFcwamFjZUFGclZYa1VnSGlXNHBZaEV3QTNtTEVSaWJSMURsazlFYXdQbStLWG9abGhBPT0.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .bg-blur {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100vh;
+            -webkit-filter: blur(30px);
+            -moz-filter: blur(30px);
+            -o-filter: blur(30px);
+            -ms-filter: blur(30px);
+            filter: blur(30px);
+        }
+
+        .rotate_div {
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            box-shadow: 2px 2px 10px #c0c0c0de;
+            -moz-box-shadow: 2px 2px 10px #c0c0c0de;
+            -webkit-box-shadow: 2px 2px 10px #c0c0c0de;
+            /* For IE 8 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+            /* For IE 5.5 - 7 */
+            filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: rotate 20s linear infinite;
+            background-color: white;
+        }
+
+        .rotate_img {
+            width: 93%;
+            height: 93%;
+            border-radius: 50%;
+            box-shadow: 2px 2px 10px #c0c0c0de;
+            -moz-box-shadow: 2px 2px 10px #c0c0c0de;
+            -webkit-box-shadow: 2px 2px 10px #c0c0c0de;
+            /* For IE 8 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+            /* For IE 5.5 - 7 */
+            filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0)
+            }
+
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        #lyrics_div {
+            width: 600px;
+            height: 500px;
+            overflow: auto;
+        }
+
+        #lyrics_div .str_row {
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 1px 1px 5px #999;
+        }
+
+        #operation_list_ui li {
+            list-style: none;
+            display: inline-block;
+            width: 100px;
+            text-align: center;
+        }
+
+        #operation_list_ui .top {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 2px 10px #7c7c7cde;
+            -moz-box-shadow: 2px 2px 10px #7c7c7cde;
+            -webkit-box-shadow: 2px 2px 10px #7c7c7cde;
+            /* For IE 8 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+            /* For IE 5.5 - 7 */
+            filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+        }
+
+        #operation_list_ui .button {
+            width: 50px;
+            text-align: center;
+            color: tomato;
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        /**浮动播放器css**/
+        #free_music_next {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            bottom: 2%;
+            z-index: 1000000;
+        }
+
+        #free_music_up {
+            width: 100%;
+            position: fixed;
+            bottom: 12%;
+            z-index: 999;
+            text-align: center;
+        }
+
+        #free_music_next .music_next {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            box-shadow: 2px 2px 10px #c0c0c0de;
+            -moz-box-shadow: 2px 2px 10px #c0c0c0de;
+            -webkit-box-shadow: 2px 2px 10px #c0c0c0de;
+            /* For IE 8 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+            /* For IE 5.5 - 7 */
+            filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+            min-width: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url(./img/YDUI-下一曲.png) 10px 10px no-repeat;
+            background-size: 50px;
+            /* background-color: #ffffff7a; */
+        }
+
+        #free_music_next .music_up {
+            width: 70px;
+            height: 70px;
+            min-width: 65px;
+            border-radius: 50%;
+            box-shadow: 2px 2px 10px #c0c0c0de;
+            -moz-box-shadow: 2px 2px 10px #c0c0c0de;
+            -webkit-box-shadow: 2px 2px 10px #c0c0c0de;
+            /* For IE 8 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+            /* For IE 5.5 - 7 */
+            filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url(./img/YDUI-上一曲.png) 10px 10px no-repeat;
+            background-size: 50px;
+            /* background-color: #ffffff7a; */
+        }
+
+        #free_music_next .music_up:hover {
+            width: 65px;
+            height: 65px;
+            background-size: 45px;
+        }
+
+        #free_music_next .music_next:hover {
+            width: 65px;
+            height: 65px;
+            background-size: 45px;
+        }
+
+        #free_music_next .music_player {
+            width: 40%;
+            min-width: 600px;
+            height: 70px;
+            border-radius: 80px;
+            /* background-color: #ffffff7a; */
+            margin: 0px 20px;
+            box-shadow: 2px 2px 10px #c0c0c0bb;
+            -moz-box-shadow: 2px 2px 10px #c0c0c0de;
+            -webkit-box-shadow: 2px 2px 10px #c0c0c0de;
+            /* For IE 8 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+            /* For IE 5.5 - 7 */
+            filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+            display: flex;
+            /* justify-content: center; */
+            align-items: center;
+        }
+
+        #free_music_next .music_player .play_img {
+            width: 30px;
+            height: 30px;
+            margin: 0px 8px;
+        }
+
+        #free_music_next .music_player .music_head_img {
+            width: 50px;
+            height: 50px;
+            border-radius: 35px;
+            box-shadow: 1px 1px 10px #6b6b6bbb;
+            -moz-box-shadow: 1px 1px 10px #6b6b6bbb;
+            -webkit-box-shadow: 1px 1px 10px #6b6b6bbb;
+            /* For IE 8 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+            /* For IE 5.5 - 7 */
+            filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+            margin-left: 13px;
+            margin-top: 3px;
+        }
+
+
+        .music_head_img {
+            animation: rotate 20s linear infinite
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0)
+            }
+
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+    </style>
+    <script src="js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="bg bg-blur">
+        </div>
+        <audio controls ontimeupdate="myFunction(this)" id="music" preload="auto" :src="MusicInfo.url">
+        </audio>
+        <el-row>
+            <el-col :span="24"
+                style="font-size:22px;display: flex;justify-content: center;align-items: center;margin:30px 0px;overflow: hidden;">
+                <span>—— {{ MusicInfo.name }} ——</span>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24" style="display: flex;justify-content: center;align-items: center;">
+                <div class="rotate_div">
+                    <img class="rotate_img" :src="MusicInfo.img" fit="cover">
+                </div>
+                <div id="lyrics_div">
+                    <div class="str_row" time="by0"> 作曲 : 陈光荣</div>
+                    <div class="str_row" time="by1"> 作词 : Anders Lee</div>
+                    <div class="str_row" time="by12">Love in your eyes</div>
+                    <div class="str_row" time="by15">Sitting silent by my side</div>
+                    <div class="str_row" time="by18">Going on Holding hands</div>
+                    <div class="str_row" time="by20">Walking through the nights</div>
+                    <div class="str_row" time="by23">Hold me up Hold me tight</div>
+                    <div class="str_row" time="by26">Lift me up to touch the sky</div>
+                    <div class="str_row" time="by29">Teaching me to love with heart</div>
+                    <div class="str_row" time="by32">Helping me open my mind</div>
+                    <div class="str_row" time="by35">I can fly</div>
+                    <div class="str_row" time="by37">I'm proud that I can fly</div>
+                    <div class="str_row" time="by40">To give the best of mine</div>
+                    <div class="str_row" time="by43">Till the end of the time</div>
+                    <div class="str_row" time="by45">Believe me I can fly</div>
+                    <div class="str_row" time="by49">I'm proud that I can fly</div>
+                    <div class="str_row" time="by52">To give the best of mine</div>
+                    <div class="str_row" time="by54">The heaven in the sky</div>
+                    <div class="str_row" time="by58"></div>
+                    <div class="str_row" time="by62"></div>
+                    <div class="str_row" time="by65"></div>
+                    <div class="str_row" time="by72">Stars in the sky</div>
+                    <div class="str_row" time="by74">Wishing once upon a time</div>
+                    <div class="str_row" time="by77">Give me love Make me smile</div>
+                    <div class="str_row" time="by79">Till the end of life</div>
+                    <div class="str_row" time="by82">Hold me up Hold me tight</div>
+                    <div class="str_row" time="by86">Lift me up to touch the sky</div>
+                    <div class="str_row" time="by89">Teaching me to love with heart</div>
+                    <div class="str_row" time="by93">Helping me open my mind</div>
+                    <div class="str_row" time="by95">I can fly</div>
+                    <div class="str_row" time="by97">I'm proud that I can fly</div>
+                    <div class="str_row" time="by100">To give the best of mine</div>
+                    <div class="str_row" time="by103">Till the end of the time</div>
+                    <div class="str_row" time="by106">Believe me I can fly</div>
+                    <div class="str_row" time="by108">I'm proud that I can fly</div>
+                    <div class="str_row" time="by111">To give the best of mine</div>
+                    <div class="str_row" time="by115">The heaven in the sky</div>
+                    <div class="str_row" time="by117"></div>
+                    <div class="str_row" time="by128">Can't you believe that you light up my way</div>
+                    <div class="str_row" time="by133">No matter how that ease my path</div>
+                    <div class="str_row" time="by136">I'll never lose my faith</div>
+                    <div class="str_row" time="by139">See me fly</div>
+                    <div class="str_row" time="by141">I'm proud to fly up high</div>
+                    <div class="str_row" time="by144">Show you the best of mine</div>
+                    <div class="str_row" time="by146">Till the end of the time</div>
+                    <div class="str_row" time="by150">Believe me I can fly</div>
+                    <div class="str_row" time="by153">I'm singing in the sky</div>
+                    <div class="str_row" time="by157">Show you the best of mine</div>
+                    <div class="str_row" time="by158">The heaven in the sky</div>
+                    <div class="str_row" time="by162"></div>
+                    <div class="str_row" time="by164">Nothing can stop me</div>
+                    <div class="str_row" time="by166">Spread my wings so wide</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12" :offset="6" style="display: flex;justify-content: space-around;margin-top:50px;">
+                <ui id="operation_list_ui">
+                    <li>
+                        <div class="top"><i class="el-icon-collection-tag"></i></div>
+                        <div class="button">收藏</div>
+                    </li>
+                    <li>
+                        <div class="top" @click="SwitchShow()"><i class="el-icon-remove"></i></div>
+                        <div class="button">切换样式</div>
+                    </li>
+                    <li>
+                        <div class="top" @click="openDownloadDialog()"><i class="el-icon-bottom"></i></div>
+                        <div class="button">下载歌曲</div>
+                    </li>
+                    <li>
+                        <div class="top" @click="GetLyrics()"><i class="el-icon-paperclip"></i></div>
+                        <div class="button">复制歌词</div>
+                    </li>
+                </ui>
+            </el-col>
+        </el-row>
+
+
+        <div id="free_music">
+            <div id="free_music_next">
+                <div class="music_up" @click="pollingControl(-1)">
+                </div>
+                <div class="music_player">
+                    <el-popover trigger="hover" placement="top">
+                        <p>歌手: {{ MusicInfo.artist }}</p>
+                        <p>歌名: {{ MusicInfo.name }}</p>
+                        <div slot="reference" class="name-wrapper">
+                            <img class="music_head_img" :src="MusicInfo.img" fit="cover">
+                            </img>
+                        </div>
+                    </el-popover>
+                    <el-image @click="playMusic" class="play_img" :src="play_img_st" fit="cover">
+                    </el-image>
+                    <el-slider v-model="music_val.music_time" @change="updateMusicTime" :format-tooltip="formatTooltip"
+                        :max="music_val.music_time_max" style="width:40%;">
+                    </el-slider>
+                    <el-image class="play_img" style="margin-left:3%;"
+                        @click="playerFrom=playerFrom=='./img/循环播放.png'?'./img/随机播放.png':'./img/循环播放.png'"
+                        :src="playerFrom" fit="cover">
+                    </el-image>
+                    </el-image>
+                    <el-image class="play_img" style="margin-left:1px;" src="./img/音量.png" fit="cover">
+                    </el-image>
+                    <el-slider :max="100" @input="changeVolume" @change="changeVolumeMeagess"
+                        v-model="music_val.music_volume" style="width:15%;">
+                    </el-slider>
+                </div>
+                <div class="music_next" @click="pollingControl(1)">
+                </div>
+            </div>
+        </div>
+        <el-dialog title="提示" :visible.sync="centerDialogVisible" width="40%" center>
+            <span>由于考虑到浏览器规则 请您先点击然后再享用</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="centerDialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+            </span>
+        </el-dialog>
+    </div>
+</body>
+<script src="./js/Http.js" type="text/javascript"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script> -->
+<script>
+
+    //歌词处理器
+    function myFunction(event) {
+        //判断播放时长是否大于等于总时长 如果是的 则切换下一首
+        if (event.duration <= event.currentTime) {
+            if (event.paused) {
+                vuex.play_img_st = "./img/播放.png";
+                vuex.$notify({
+                    title: '温馨提示',
+                    message: '当前音乐已结束',
+                });
+                vuex.music_val.music_time = 0.00; //给播放时长清零
+                vuex.pollingControl(1); //切换下一首
+                return;
+            }
+        }
+        vuex.music_val.music_time = event.currentTime;
+        //  currentTime 属性返回视频/音频（audio/video）当前播放位置
+        let div = $("div[time=" + "by" + parseInt(event.currentTime) + "]");
+        if ($(div).size() != 0) {
+            //获取歌词的平均高度
+            let addheight = vuex.lyricSumHeight / $(".str_row").size();
+            //给滚动条加上
+            $("#lyrics_div")[0].scrollTop = ($(div).index() * addheight) - (5 * addheight);
+            //将计算的新位置进行赋值，使滚动条移动
+            $(div).siblings().css({ "color": "#000", "font-size": "16px" }); //清除其他同级样式
+            $(div).css({ "color": "red", "font-size": "20px" }); //给当前元素添加css样式
+        }
+    }
+
+    var vuex = new Vue({
+        el: '#app',
+        data: {
+            input3: "",
+            /**头部菜单栏**/
+            LoginShow: true,
+            /**浮动音乐控件**/
+            //播放状态图标
+            play_img_st: "./img/播放.png",
+            music_val: {
+                //默认开始播放时间
+                music_time: 0.00,
+                //音乐总播放时
+                music_time_max: 100.00,
+                //默认音量
+                music_volume: 50,
+                lyricSumHeight: 0,
+            },
+            //默认播放音乐
+            defaultMusic: {
+                album: "A Little Love",
+                artist: "冯曦妤",
+                img: "./img/109951163281530923.jpg",
+                lyric: `<div class="str_row" time="by0"> 作曲 : 陈光荣</div>
+                <div class="str_row" time="by1"> 作词 : Anders Lee</div>
+                <div class="str_row" time="by12">Love in your eyes</div>
+                <div class="str_row" time="by15">Sitting silent by my side</div>
+                <div class="str_row" time="by18">Going on Holding hands</div>
+                <div class="str_row" time="by20">Walking through the nights</div>
+                <div class="str_row" time="by23">Hold me up Hold me tight</div>
+                <div class="str_row" time="by26">Lift me up to touch the sky</div>
+                <div class="str_row" time="by29">Teaching me to love with heart</div>
+                <div class="str_row" time="by32">Helping me open my mind</div>
+                <div class="str_row" time="by35">I can fly</div>
+                <div class="str_row" time="by37">I'm proud that I can fly</div>
+                <div class="str_row" time="by40">To give the best of mine</div>
+                <div class="str_row" time="by43">Till the end of the time</div>
+                <div class="str_row" time="by45">Believe me I can fly</div>
+                <div class="str_row" time="by49">I'm proud that I can fly</div>
+                <div class="str_row" time="by52">To give the best of mine</div>
+                <div class="str_row" time="by54">The heaven in the sky</div>
+                <div class="str_row" time="by58"></div>
+                <div class="str_row" time="by62"></div>
+                <div class="str_row" time="by65"></div>
+                <div class="str_row" time="by72">Stars in the sky</div>
+                <div class="str_row" time="by74">Wishing once upon a time</div>
+                <div class="str_row" time="by77">Give me love Make me smile</div>
+                <div class="str_row" time="by79">Till the end of life</div>
+                <div class="str_row" time="by82">Hold me up Hold me tight</div>
+                <div class="str_row" time="by86">Lift me up to touch the sky</div>
+                <div class="str_row" time="by89">Teaching me to love with heart</div>
+                <div class="str_row" time="by93">Helping me open my mind</div>
+                <div class="str_row" time="by95">I can fly</div>
+                <div class="str_row" time="by97">I'm proud that I can fly</div>
+                <div class="str_row" time="by100">To give the best of mine</div>
+                <div class="str_row" time="by103">Till the end of the time</div>
+                <div class="str_row" time="by106">Believe me I can fly</div>
+                <div class="str_row" time="by108">I'm proud that I can fly</div>
+                <div class="str_row" time="by111">To give the best of mine</div>
+                <div class="str_row" time="by115">The heaven in the sky</div>
+                <div class="str_row" time="by117"></div>
+                <div class="str_row" time="by128">Can't you believe that you light up my way</div>
+                <div class="str_row" time="by133">No matter how that ease my path</div>
+                <div class="str_row" time="by136">I'll never lose my faith</div>
+                <div class="str_row" time="by139">See me fly</div>
+                <div class="str_row" time="by141">I'm proud to fly up high</div>
+                <div class="str_row" time="by144">Show you the best of mine</div>
+                <div class="str_row" time="by146">Till the end of the time</div>
+                <div class="str_row" time="by150">Believe me I can fly</div>
+                <div class="str_row" time="by153">I'm singing in the sky</div>
+                <div class="str_row" time="by157">Show you the best of mine</div>
+                <div class="str_row" time="by158">The heaven in the sky</div>
+                <div class="str_row" time="by162"></div>
+                <div class="str_row" time="by164">Nothing can stop me</div>
+                <div class="str_row" time="by166">Spread my wings so wide</div>`,
+                name: "Proud Of You",
+                pic_id: "109951163281530923",
+                source: "netease",
+                url: "./mp3/default_music.mp3",
+            },
+            //音乐列表
+            MusicList: [],
+            MusicCollectList: [],
+            //当前播放音乐
+            MusicInfo: {},
+            //当前播放位置
+            plaerLocation: 0,
+            playerFrom: "./img/循环播放.png",
+            multipleSelection: [],
+            //
+            songListLoad: false,
+            //导入歌单的操作锁
+            fullscreenLoading: false,
+            //全操作锁
+            loading: null,
+            centerDialogVisible:true,
+        },
+        methods: {
+            GetLyrics(){
+                let lyrics = "";
+                $.each($(".str_row"),function(i,a){
+                    lyrics+=$(a).text()+"\n";
+                });
+                console.log(lyrics);
+            },
+            SwitchShow() { //样式切换
+                if ($("#lyrics_div").is(":hidden")) {
+                    $("#lyrics_div").show();    //如果元素为隐藏,则将它显现
+                    $(".rotate_div").hide();
+                    //获取歌词滚动栏的总高度 并赋值到vue
+                    this.lyricSumHeight = $("#lyrics_div")[0].scrollHeight;
+                } else {
+                    $("#lyrics_div").hide();     //如果元素为显现,则将其隐藏
+                    $(".rotate_div").show();
+                }
+            },
+            openDownloadDialog() { //下载器
+                let url = this.MusicInfo.url;
+                if (typeof url == 'object' && url instanceof Blob) {
+                    url = URL.createObjectURL(url); // 创建blob地址
+                }
+                var aLink = document.createElement('a');
+                aLink.href = url;
+                aLink.target = "_blank";
+                aLink.download = "xxx" || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
+                var event;
+                if (window.MouseEvent) event = new MouseEvent('click');
+                else {
+                    event = document.createEvent('MouseEvents');
+                    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                }
+                aLink.dispatchEvent(event);
+            },
+            SearchPlay(row, type, id) {
+                let _this = this;
+                let po = {};
+                if (type === 0) {
+                    po = {
+                        "key": _this.redisKey,
+                        "pid": row.pic_id,
+                        "type": this.EnSearchType,
+                        "uid": row.url_id
+                    }
+                } else if (type === 1) {
+                    po = {
+                        "key": row.redisKey,
+                        "pid": row.pic_id,
+                        "type": row.source,
+                        "uid": row.url_id
+                    }
+                    _this.plaerLocation = id;
+                }
+
+                if (_this.loading === null) { //为了避免重复操作 加个loading
+                    _this.loading = this.$loading({
+                        lock: true,
+                        text: '莫慌 已经时速八百码了',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.1)'
+                    });
+                }
+
+                post("/music/emGetMusic", po, this, function (data) {
+                    _this.MusicInfo = data.data;
+                    $("#lyrics_div").html("");
+                    $("#lyrics_div").append(data.data.lyric);
+                    $("#music")[0].load();
+                    _this.playMusic();
+                });
+            },
+
+            updateMusicTime() { //修改当前播放时间
+                let _this = this;
+                let audio = $("#music")[0]; //获取音乐本体
+                audio.currentTime = parseFloat(this.music_val.music_time); //定位到指定播放时间
+                // $(".str_row").fadeOut(1000);
+                this.loadMusic();
+                if (audio.paused) { //如果音乐暂停了 则重新启动
+                    this.play_img_st = "./img/播放 (1).png";
+                    audio.play();
+                }
+            },
+            loadMusic() { //播放加载
+                let _this = this;
+                let audio = $("#music")[0]; //获取音乐本体
+                _this.music_val.music_time_max = audio.duration; //获取当前音乐总时间 进行绑定
+                if ($(".str_row").size() < 1) { //如果没有歌词 则append一个提示
+                    $("#lyrics_div").append(`<div class="str_row" time="by5">当前歌曲没有歌词 将就听吧</div>`);
+                }
+            },
+            changeVolume() { //音量条 返回显示数据
+                document.getElementById("music").volume = this.music_val.music_volume / 100;
+            },
+            changeVolumeMeagess() { //监听音量如果>=80 则温馨提示
+                if (this.music_val.music_volume >= 80) {
+                    this.$notify({
+                        title: '温馨提示',
+                        message: '声音太大会伤害耳朵 建议您调小点奥',
+                    });
+                }
+            },
+            formatTooltip(val) {  //音乐时间条 返回显示数据
+                let minute = val / 60; //获取分
+                let seconds = val % 60; //获取秒
+                if (parseInt(minute) >= 1) {
+                    return parseInt(minute) + "min" + parseInt(seconds) + "sec";
+                } else {
+                    return parseInt(seconds) + "sec";
+                }
+            },
+            playMusic() { //音乐播放控制
+                let _this = this;
+                let uploadMusic = $("#music")[0]; //获取音乐本体
+
+                //判断音乐是否能播放
+                if (isNaN(uploadMusic.duration)) {
+                    this.$notify({
+                        title: '温馨提示',
+                        message: '当前音乐无法播放',
+                    });
+                    this.play_img_st = "./img/播放.png"
+                    let time = setInterval(function () {
+                        _this.$notify({
+                            title: '温馨提示',
+                            message: '系统不信邪 想重试一下...',
+                        });
+                        if (isNaN(uploadMusic.duration)) {
+                            _this.pollingControl(1); //如果还是不行就切换到下一首
+                        } else {
+                            _this.playMusic(); //否则继续播放
+                        }
+                        clearInterval(time);
+                    }, 1000);
+                    return;
+                }
+                //操作结束 释放锁
+                if (_this.loading !== null) {
+                    _this.loading.close();
+                    _this.loading = null;
+                }
+
+                if (uploadMusic.paused) { //如果音乐没有播放 则进行播放
+                    this.play_img_st = "./img/播放 (1).png";
+                    uploadMusic.play(); //播放
+                    this.loadMusic(); //调用音乐加载方法
+                } else { //如果音乐已播放 则停止播放
+                    this.play_img_st = "./img/播放.png"
+                    uploadMusic.pause(); //停止
+                    _this.$notify({
+                        title: '温馨提示',
+                        message: '你暂停了音乐',
+                    });
+                }
+            },
+            pollingControl(val) { //音乐切换函数 切换的幅度 列于+-1
+                let _this = this;
+
+                if (_this.loading === null) { //为了避免重复操作 加个loading
+                    _this.loading = this.$loading({
+                        lock: true,
+                        text: '莫慌 已经时速八百码了',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.1)'
+                    });
+                }
+                _this.plaerLocation += val; //默认位置 加上幅度
+
+                if (_this.plaerLocation >= _this.MusicCollectList.length || _this.plaerLocation < 0) { //判断 如果切换幅度越界 则赋0
+                    _this.plaerLocation = 0;
+                }
+
+                if (null === _this.MusicCollectList || _this.MusicCollectList.length <= 0 || val === 0) { //判断列表是否正常 是否有音乐 是否要默认播放
+                    _this.$notify({
+                        title: '温馨提示',
+                        message: '音乐列表可能没有音乐了 所以自动切换到默认音乐',
+                    });
+                    _this.MusicInfo = _this.defaultMusic; //播放默认歌曲
+                    $("#lyrics_div").html("");
+                    $("#lyrics_div").append(_this.defaultMusic.lyric);
+                    $("#music")[0].load();
+                    _this.playMusic();
+                    return;
+                }
+
+                if (_this.playerFrom === "./img/随机播放.png") { //如果用户切换到了随机播放 则幅度重新赋值为随机数
+                    _this.plaerLocation = parseInt(Math.random() * _this.MusicCollectList.length - 1);
+                }
+
+                po = {
+                    "key": _this.MusicCollectList[_this.plaerLocation].redisKey,
+                    "pid": _this.MusicCollectList[_this.plaerLocation].pic_id,
+                    "type": _this.MusicCollectList[_this.plaerLocation].source,
+                    "uid": _this.MusicCollectList[_this.plaerLocation].url_id
+                }
+
+                post("/music/emGetMusic", po, this, function (data) {
+                    _this.MusicInfo = data.data;
+                    $(".bg").css("background-image", 'url(' + _this.MusicInfo.img + ')');
+                    $("#lyrics_div").html("");
+                    $("#lyrics_div").append(data.data.lyric);
+                    $("#music")[0].load();
+                    _this.playMusic();
+                });
+            },
+            /** 公用函数 */
+            sleep(delay) {  //延时/毫秒
+                var start = (new Date()).getTime();
+                while ((new Date()).getTime() - start < delay) {
+                    continue;
+                }
+            },
+        },
+        mounted() {
+            let _this = this;
+            //获取本地歌单
+            _this.MusicCollectList = JSON.parse(localStorage.getItem("MusicCollectList")) == null ? [] : JSON.parse(localStorage.getItem("MusicCollectList"));
+            //获取当前播放音乐
+            _this.MusicInfo = JSON.parse(localStorage.getItem("MusicInfo"));
+            //获取播放时长
+            _this.music_val.music_time = JSON.parse(localStorage.getItem("musicTime"));
+            //主页背景处理
+            $(".bg").css("background-image", 'url(' + _this.MusicInfo.img + ')');
+            //歌词处理
+            $("#lyrics_div").hide();
+            $("#lyrics_div").html("");
+            $("#lyrics_div").append(_this.MusicInfo.lyric);
+            //同步播放时长
+            _this.updateMusicTime();
+            let time = setInterval(() => {
+                if (!_this.centerDialogVisible) {
+                    _this.playMusic();
+                    clearInterval(time);
+                }
+            }, 1000);
+        },
+    });
+</script>
+
+</html>

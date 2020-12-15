@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>简乐主页</title>
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<!-- <link rel="stylesheet" href="element-ui/lib/theme-chalk/display.css"; -->
+	<style>
+		* {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		body {
+			min-width: 1000px;
+			background: url(./img/背景-梅花.png) no-repeat 0px 300px;
+			background-size: 25%;
+		}
+
+
+		.li_link {
+			display: inline;
+			margin-left: 1%;
+			margin-right: 1%;
+		}
+
+		.link_txt {
+			font-size: 14px;
+			font-weight: 800;
+		}
+
+		.carouselitem {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			box-shadow: 5px 5px 10px #6b6b6bbb;
+			-moz-box-shadow: 5px 5px 10px #6b6b6bbb;
+			-webkit-box-shadow: 5px 5px 10px #6b6b6bbb;
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+			/* For IE 5.5 - 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+
+			border-top-left-radius: 1em;
+			border-top-right-radius: 1em;
+			border-bottom-right-radius: 1em;
+			border-bottom-left-radius: 1em;
+		}
+
+		.el-carousel__item h3 {
+			color: #475669;
+			font-size: 14px;
+			opacity: 0.75;
+			line-height: 200px;
+			margin: 0;
+		}
+
+		/* 变成灰色 */
+		/* .imgs:hover {
+            filter: grayscale(100%);
+        } */
+
+		.el-carousel__item:nth-child(2n) {
+			background-color: #99a9bf;
+		}
+
+		.el-carousel__item:nth-child(2n+1) {
+			background-color: #d3dce6;
+		}
+
+		#free_toolbar {
+			/* justify-content: space-around; */
+			align-items: center;
+			position: fixed;
+			display: flex;
+			bottom: 30px;
+			right: 45px;
+			width: 60px;
+			z-index: 999;
+		}
+
+		.toolbar_li {}
+
+		#free_toolbar .head_img {
+			border-radius: 50%;
+			width: 60px;
+			height: 60px;
+			background-color: #000;
+			box-shadow: 5px 5px 10px #6b6b6bbb;
+			-moz-box-shadow: 5px 5px 10px #6b6b6bbb;
+			-webkit-box-shadow: 5px 5px 10px #6b6b6bbb;
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+			/* For IE 5.5 - 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+			margin-bottom: 3px;
+		}
+
+		.toolbar_li {
+			border-radius: 5px;
+			width: 15px;
+			height: 80px;
+			box-shadow: 1px 1px 7px #b4b4b4bb;
+			-moz-box-shadow: 1px 1px 7px #b4b4b4bb;
+			-webkit-box-shadow: 1px 1px 7px #b4b4b4bb;
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+			/* For IE 5.5 - 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+			cursor: pointer;
+			/* border: rgb(85, 85, 85) 2px solid; */
+			margin-bottom: 1px;
+
+		}
+
+		#toolbar_lis {
+			position: fixed;
+			top: 100px;
+			right: 20px;
+			z-index: 999;
+		}
+
+		#toolbar_pendant {
+			background-color: rgba(255, 255, 255, 0);
+			width: 100%;
+			height: 115px;
+			background: url(./img/中国结.png) 6px 0px no-repeat;
+			background-size: 50px;
+		}
+
+		#daily_special {
+			width: 60%;
+			min-width: 600px;
+			height: 80px;
+			/* background-color: rgba(236, 236, 236, 0.616); */
+			border-radius: 85px;
+			/* box-shadow: 3px 3px 7px #6b6b6bbb; */
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			/* background: url(./img/翅膀背景图.png) 3px -5px no-repeat; */
+		}
+
+		.daily_special_text a {
+			text-decoration: none;
+			color: #ce0116;
+			/* font-weight:545; */
+			font-size: 16px;
+		}
+
+		.daily_special_text:hover span {
+			display: inline-block;
+		}
+
+		.daily_special_text span {
+			display: none;
+			/* font-weight: bold; */
+			font-size: 12px;
+		}
+
+		#daily_special .left_flank {
+			height: 100%;
+			width: 60px;
+			background: url(./img/翅膀左.png) 0px 6px no-repeat;
+		}
+
+		#daily_special .right_flank {
+			height: 100%;
+			width: 60px;
+			background: url(./img/翅膀右.png) 0px 6px no-repeat;
+		}
+
+		.song_list {
+			width: 20%;
+			height: 200px;
+			border-radius: 1em;
+			box-shadow: 5px 5px 10px #6b6b6bbb;
+			-moz-box-shadow: 5px 5px 10px #6b6b6bbb;
+			-webkit-box-shadow: 5px 5px 10px #6b6b6bbb;
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+			/* For IE 5.5 - 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+			position: relative;
+			display: inline-block;
+			margin-left: 3.75%;
+			margin-bottom: 30px;
+		}
+
+		.song_list:hover img {
+			filter: blur(3px);
+			position: absolute;
+		}
+
+		.song_list:hover .song_list_txt {
+			display: inline-block;
+		}
+
+		.song_list_txt {
+			display: none;
+			position: absolute;
+			top: 10%;
+			left: 10%;
+			color: #fff;
+			font-size: 14px;
+			font-weight: 600;
+		}
+
+		#song_lists {}
+
+		.song_list img {
+			border-radius: 1em;
+		}
+
+		#free_music_next {
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			position: fixed;
+			bottom: 2%;
+			z-index: 999;
+		}
+
+		#free_music_up {
+			width: 100%;
+			position: fixed;
+			bottom: 10%;
+			z-index: 999;
+			text-align: center;
+		}
+
+		#free_music_next .music_next {
+			width: 70px;
+			height: 70px;
+			border-radius: 50%;
+			box-shadow: 2px 2px 10px #c0c0c0de;
+			-moz-box-shadow: 2px 2px 10px #c0c0c0de;
+			-webkit-box-shadow: 2px 2px 10px #c0c0c0de;
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+			/* For IE 5.5 - 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+			min-width: 65px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background: url(./img/YDUI-下一曲.png) 10px 10px no-repeat;
+			background-size: 50px;
+			/* background-color: #ffffff7a; */
+		}
+
+		#free_music_next .music_up {
+			width: 70px;
+			height: 70px;
+			min-width: 65px;
+			border-radius: 50%;
+			box-shadow: 2px 2px 10px #c0c0c0de;
+			-moz-box-shadow: 2px 2px 10px #c0c0c0de;
+			-webkit-box-shadow: 2px 2px 10px #c0c0c0de;
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+			/* For IE 5.5 - 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background: url(./img/YDUI-上一曲.png) 10px 10px no-repeat;
+			background-size: 50px;
+			/* background-color: #ffffff7a; */
+		}
+
+		#free_music_next .music_up:hover {
+			width: 65px;
+			height: 65px;
+			background-size: 45px;
+		}
+
+		#free_music_next .music_next:hover {
+			width: 65px;
+			height: 65px;
+			background-size: 45px;
+		}
+
+		#free_music_next .music_player {
+			width: 40%;
+			min-width: 600px;
+			height: 70px;
+			border-radius: 80px;
+			/* background-color: #ffffff7a; */
+			margin: 0px 20px;
+			box-shadow: 2px 2px 10px #c0c0c0bb;
+			-moz-box-shadow: 2px 2px 10px #c0c0c0de;
+			-webkit-box-shadow: 2px 2px 10px #c0c0c0de;
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+			/* For IE 5.5 - 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+			display: flex;
+			/* justify-content: center; */
+			align-items: center;
+		}
+
+		#free_music_next .music_player .play_img {
+			width: 35px;
+			height: 35px;
+			margin: 0px 8px;
+		}
+
+		#free_music_next .music_player .music_head_img {
+			width: 50px;
+			height: 50px;
+			border-radius: 35px;
+			box-shadow: 1px 1px 10px #6b6b6bbb;
+			-moz-box-shadow: 1px 1px 10px #6b6b6bbb;
+			-webkit-box-shadow: 1px 1px 10px #6b6b6bbb;
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+			/* For IE 5.5 - 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+			margin-left: 13px;
+		}
+
+		.toolber_row {
+			width: 110px;
+			height: 100px;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+		}
+
+		.toolber_row:hover .toolbar_txt {
+			display: inline-block;
+		}
+
+		.toolber_row .toolbar_txt {
+			display: none;
+			font-size: 14px;
+			font-weight: bold;
+			color: #000;
+		}
+
+		audio {
+			display: none;
+		}
+
+		#music_lyrics div {
+			display: none;
+			width: 100%;
+			height: 50px;
+			text-align: center;
+			line-height: 50px;
+			/* box-shadow: 1px 1px 10px #6b6b6bbb; */
+			font-size: 16px;
+		}
+
+		.str_row_sysle {
+			display: block;
+			color: #a81523;
+		}
+
+		#title_album {
+			height: 80px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 18px;
+			font-weight: 600;
+		}
+
+		.music_list_headimg {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			box-shadow: 1px 1px 10px #6b6b6bbb;
+			-moz-box-shadow: 1px 1px 10px #6b6b6bbb;
+			-webkit-box-shadow: 1px 1px 10px #6b6b6bbb;
+			/* For IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+			/* For IE 5.5 - 7 */
+			filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+		}
+
+		.music_head_img {
+			animation: rotate 20s linear infinite
+		}
+
+		@keyframes rotate {
+			0% {
+				transform: rotate(0)
+			}
+
+			100% {
+				transform: rotate(360deg)
+			}
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="js/vue.js"></script>
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+
+<body>
+	<div id="enroll">
+		<audio controls ontimeupdate="myFunction(this)" id="music" preload="auto" :src="MusicInfo.url">
+		</audio>
+		<el-container>
+			<el-header>
+				<el-row style="margin-top:2%;">
+					<el-col :span="24" style="display: flex;justify-content: center;align-items: center;">
+						<transition name="el-zoom-in-center">
+							<img src="./img/音乐 (3).png" v-show="show2" height="60px" @click="imgShow()" alt="简乐"
+								title="简乐" />
+						</transition>
+					</el-col>
+				</el-row>
+				<el-row style="margin-top:1%;">
+					<el-col :span="24" style="display: flex;justify-content: center;align-items: center;">
+						<li class="li_link">
+							<el-link style="color:#3cb4e5;" disabled class="link_txt">首页</el-link>
+						</li>
+						<li class="li_link">
+							<el-link class="link_txt">推荐</el-link>
+						</li>
+						<li class="li_link">
+							<el-link class="link_txt">社交</el-link>
+						</li>
+						<li class="li_link">
+							<el-link class="link_txt">简介</el-link>
+						</li>
+						<li class="li_link">
+							<el-link class="link_txt">个人</el-link>
+						</li>
+						<li class="li_link">
+							<el-link class="link_txt">搜索</el-link>
+						</li>
+					</el-col>
+				</el-row>
+			</el-header>
+			<el-main style="margin-top:2%;">
+				<el-row style="margin-top:4%;">
+					<el-col :span="20" :offset="2">
+						<template>
+							<el-carousel :interval="4000" type="card" height="400px">
+								<el-carousel-item v-for="url in urls" :key="url" class="carouselitem">
+									<el-image class="imgs" style="width:100%; height:100%" :src="url" fit="cover">
+									</el-image>
+								</el-carousel-item>
+							</el-carousel>
+						</template>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-row>
+						<el-col :span="24" style="display: flex;justify-content: center;align-items: center;">
+							<div id="title_album">
+								/ <span>&nbsp;每日一诗&nbsp;</span> /
+							</div>
+						</el-col>
+					</el-row>
+					<el-col :span="24" style="display: flex;justify-content: center;align-items: center;">
+						<div id="daily_special">
+							<div class="left_flank"></div>
+							<div class="daily_special_text"><a href="https://cn.bing.com/search?q=知其白,守其黑,是为天下式。">知其白
+									守其黑 是为天下式</a>
+								<div style="width:30px;display: inline-block;"></div><span>—— 《道德经》/老子</span>
+							</div>
+							<div class="right_flank"></div>
+						</div>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-row>
+						<el-col :span="24" style="display: flex;justify-content: center;align-items: center;">
+							<div id="title_album">
+								/ <span>&nbsp;推荐专辑&nbsp;</span> /
+							</div>
+						</el-col>
+					</el-row>
+					<el-col :span="20" :offset="2" id="song_lists" style="margin-top:30px;">
+						<div class="song_list">
+							<el-image class="imgs" style="width:100%; height:100%;"
+								src=".\img\aThtTFcwamFjZUFGclZYa1VnSGlXeFhJZWQ4RmYySnRQZyt1ZytRbUUxVXBacGRwRFlvQ0VBPT0.jpg"
+								fit="cover">
+							</el-image>
+							<div class="song_list_txt">
+								<div>洛少爷精选</div>
+								<div style="font-size: 12px;margin-top:4px;">2020-12-4</div>
+							</div>
+						</div>
+						<div class="song_list">
+							<el-image class="imgs" style="width:100%; height:100%"
+								src=".\img\aThtTFcwamFjZUFGclZYa1VnSGlXNHBZaEV3QTNtTEVSaWJSMURsazlFYXdQbStLWG9abGhBPT0.jpg"
+								fit="cover">
+							</el-image>
+							<div class="song_list_txt">
+								<div>洛少爷精选</div>
+								<div style="font-size: 12px;margin-top:4px;">2020-12-4</div>
+							</div>
+						</div>
+						<div class="song_list">
+							<el-image class="imgs" style="width:100%; height:100%"
+								src=".\img\aThtTFcwamFjZUFGclZYa1VnSGlXOGRnZW45L3YzeGhzZWxCLzMrN21wUmdYRU4wZ3RDNmxBPT0.jpg"
+								fit="cover">
+							</el-image>
+							<div class="song_list_txt">
+								<div>洛少爷精选洛少爷精选洛少爷精选</div>
+								<div style="font-size: 12px;margin-top:4px;">2020-12-4</div>
+							</div>
+						</div>
+						<div class="song_list">
+							<el-image class="imgs" style="width:100%; height:100%"
+								src=".\img\aThtTFcwamFjZUNNck0rdXRNWE5Vc2ZNMnBYYXhJUVh5UGs0aVVSUVZMRFhFRHVFYTBkaVlBPT0.jpg"
+								fit="cover">
+							</el-image>
+							<div class="song_list_txt">
+								<div>洛少爷</div>
+								<div style="font-size: 12px;margin-top:4px;">2020-12-4</div>
+							</div>
+						</div>
+						<div class="song_list">
+							<el-image class="imgs" style="width:100%; height:100%"
+								src=".\img\aThtTFcwamFjZUNwYmMvZU43M1ZnaU9rREcrbWV5OXduREZxQWFkZk5hU1BZSFUxUnBBSVRBPT0.jpg"
+								fit="cover">
+							</el-image>
+							<div class="song_list_txt">
+								<div>洛少爷</div>
+								<div style="font-size: 12px;margin-top:4px;">2020-12-4</div>
+							</div>
+						</div>
+						<div class="song_list">
+							<el-image class="imgs" style="width:100%; height:100%"
+								src="https://w.wallhaven.cc/full/xl/wallhaven-xlx8ez.png" fit="cover">
+							</el-image>
+							<div class="song_list_txt">
+								<div>洛少爷</div>
+								<div style="font-size: 12px;margin-top:4px;">2020-12-4</div>
+							</div>
+						</div>
+						<div class="song_list">
+							<el-image class="imgs" style="width:100%; height:100%"
+								src=".\img\download_20201127100317.jpg" fit="cover">
+							</el-image>
+							<div class="song_list_txt">
+								<div>洛少爷</div>
+								<div style="font-size: 12px;margin-top:4px;">2020-12-4</div>
+							</div>
+						</div>
+						<div class="song_list">
+							<el-image class="imgs" style="width:100%; height:100%"
+								src=".\img\download_20201126211513.jpg" fit="cover">
+							</el-image>
+							<div class="song_list_txt">
+								<div>洛少爷</div>
+								<div style="font-size: 12px;margin-top:4px;">2020-12-4</div>
+							</div>
+						</div>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-row>
+						<el-col :span="24">
+							<div id="title_album">
+								/ <span>&nbsp;精选歌曲&nbsp;</span> /
+							</div>
+						</el-col>
+					</el-row>
+					<el-col :span="24" style="display: flex;justify-content: center;align-items: center;">
+						<div style="width:78%;">
+							<template>
+								<el-table label="" :data="tableData" style="width: 100%">
+									<el-table-column label="序号" type="index" :index="indexMethod">
+									</el-table-column>
+									<el-table-column label="图片" width="80">
+										<el-image class="music_list_headimg"
+											src=".\img\aThtTFcwamFjZUNwYmMvZU43M1ZnaU9rREcrbWV5OXduREZxQWFkZk5hU1BZSFUxUnBBSVRBPT0.jpg"
+											fit="cover">
+										</el-image>
+									</el-table-column>
+									<el-table-column label="歌名" width="220">
+										<span>张杰 - 逆态度</span>
+									</el-table-column>
+									<el-table-column label="演唱" width="100">
+										<template slot-scope="scope">
+											<div slot="reference" class="name-wrapper">
+												<el-tag size="medium">张杰</el-tag>
+											</div>
+										</template>
+									</el-table-column>
+									<el-table-column label="来源" width="130">
+										<template slot-scope="scope">
+											<div slot="reference" class="name-wrapper">
+												<el-tag size="medium">网络-酷狗</el-tag>
+											</div>
+										</template>
+									</el-table-column>
+									<el-table-column label="播放时长" width="130">
+										<template slot-scope="scope">
+											<span>3分52秒</span>
+										</template>
+									</el-table-column>
+									<el-table-column label="收录时间" width="130">
+										<template slot-scope="scope">
+											<span>2020-10-14</span>
+										</template>
+									</el-table-column>
+									<el-table-column label="操作">
+										<template slot-scope="scope">
+											<el-button size="mini">播放
+											</el-button>
+										</template>
+									</el-table-column>
+								</el-table>
+							</template>
+						</div>
+					</el-col>
+				</el-row>
+			</el-main>
+			<el-footer style="margin-top:2%;">
+
+			</el-footer>
+		</el-container>
+		<div id="free_toolbar">
+			<el-image @click="toolbarLiShow()" class="head_img" src="./img/u=2067453046,3729678053&fm=26&gp=0.jpg"
+				fit="cover">
+			</el-image>
+		</div>
+		<transition name="el-zoom-in-center">
+			<div v-show="toolbar_li_show" id="toolbar_lis">
+				<div class="toolber_row">
+					<div class="toolbar_txt">个人简介</div>
+					<div class="toolbar_li"></div>
+				</div>
+				<div class="toolber_row">
+					<div class="toolbar_txt">个人简介</div>
+					<div class="toolbar_li"></div>
+				</div>
+				<div class="toolber_row">
+					<div class="toolbar_txt">个人简介</div>
+					<div class="toolbar_li"></div>
+				</div>
+				<div class="toolber_row">
+					<div class="toolbar_txt">退出登录</div>
+					<div class="toolbar_li"></div>
+				</div>
+			</div>
+		</transition>
+		<div id="free_music">
+			<div id="free_music_next">
+				<div class="music_up">
+				</div>
+				<div class="music_player">
+					<el-popover trigger="hover" placement="top">
+						<p>歌手: {{ MusicInfo.artist }}</p>
+						<p>歌名: {{ MusicInfo.name }}</p>
+						<div slot="reference" class="name-wrapper">
+							<el-image class="music_head_img" :src="MusicInfo.img" fit="cover">
+							</el-image>
+						</div>
+					</el-popover>
+					<el-image @click="playMusic" class="play_img" :src="play_img_st" fit="cover">
+					</el-image>
+					<el-slider v-model="music_val.music_time" @change="updateMusicTime" :format-tooltip="formatTooltip"
+						:max="music_val.music_time_max" style="width:40%;">
+					</el-slider>
+					<el-image class="play_img" style="margin-left:3%;" src="./img/循环播放.png" fit="cover">
+					</el-image>
+					<el-image class="play_img" style="margin-left:1px;" src="./img/音量.png" fit="cover">
+					</el-image>
+					<el-slider :max="100" @input="changeVolume" @change="changeVolumeMeagess"
+						v-model="music_val.music_volume" style="width:15%;">
+					</el-slider>
+				</div>
+				<div class="music_next">
+				</div>
+			</div>
+			<div id="free_music_up">
+
+				<div id="music_lyrics">
+					<div class="str_row" time="by0"> 作曲 : 陈光荣</div>
+					<div class="str_row" time="by1"> 作词 : Anders Lee</div>
+					<div class="str_row" time="by12">Love in your eyes</div>
+					<div class="str_row" time="by15">Sitting silent by my side</div>
+					<div class="str_row" time="by18">Going on Holding hands</div>
+					<div class="str_row" time="by20">Walking through the nights</div>
+					<div class="str_row" time="by23">Hold me up Hold me tight</div>
+					<div class="str_row" time="by26">Lift me up to touch the sky</div>
+					<div class="str_row" time="by29">Teaching me to love with heart</div>
+					<div class="str_row" time="by32">Helping me open my mind</div>
+					<div class="str_row" time="by35">I can fly</div>
+					<div class="str_row" time="by37">I'm proud that I can fly</div>
+					<div class="str_row" time="by40">To give the best of mine</div>
+					<div class="str_row" time="by43">Till the end of the time</div>
+					<div class="str_row" time="by45">Believe me I can fly</div>
+					<div class="str_row" time="by49">I'm proud that I can fly</div>
+					<div class="str_row" time="by52">To give the best of mine</div>
+					<div class="str_row" time="by54">The heaven in the sky</div>
+					<div class="str_row" time="by58"></div>
+					<div class="str_row" time="by62"></div>
+					<div class="str_row" time="by65"></div>
+					<div class="str_row" time="by72">Stars in the sky</div>
+					<div class="str_row" time="by74">Wishing once upon a time</div>
+					<div class="str_row" time="by77">Give me love Make me smile</div>
+					<div class="str_row" time="by79">Till the end of life</div>
+					<div class="str_row" time="by82">Hold me up Hold me tight</div>
+					<div class="str_row" time="by86">Lift me up to touch the sky</div>
+					<div class="str_row" time="by89">Teaching me to love with heart</div>
+					<div class="str_row" time="by93">Helping me open my mind</div>
+					<div class="str_row" time="by95">I can fly</div>
+					<div class="str_row" time="by97">I'm proud that I can fly</div>
+					<div class="str_row" time="by100">To give the best of mine</div>
+					<div class="str_row" time="by103">Till the end of the time</div>
+					<div class="str_row" time="by106">Believe me I can fly</div>
+					<div class="str_row" time="by108">I'm proud that I can fly</div>
+					<div class="str_row" time="by111">To give the best of mine</div>
+					<div class="str_row" time="by115">The heaven in the sky</div>
+					<div class="str_row" time="by117"></div>
+					<div class="str_row" time="by128">Can't you believe that you light up my way</div>
+					<div class="str_row" time="by133">No matter how that ease my path</div>
+					<div class="str_row" time="by136">I'll never lose my faith</div>
+					<div class="str_row" time="by139">See me fly</div>
+					<div class="str_row" time="by141">I'm proud to fly up high</div>
+					<div class="str_row" time="by144">Show you the best of mine</div>
+					<div class="str_row" time="by146">Till the end of the time</div>
+					<div class="str_row" time="by150">Believe me I can fly</div>
+					<div class="str_row" time="by153">I'm singing in the sky</div>
+					<div class="str_row" time="by157">Show you the best of mine</div>
+					<div class="str_row" time="by158">The heaven in the sky</div>
+					<div class="str_row" time="by162"></div>
+					<div class="str_row" time="by164">Nothing can stop me</div>
+					<div class="str_row" time="by166">Spread my wings so wide</div>
+				</div>
+			</div>
+		</div>
+		<el-dialog title="音乐搜索" :fullscreen="true" :visible.sync="dialogTableVisible">
+			<el-row>
+				<el-col>
+					<el-col>
+						<template>
+							<el-radio v-model="EnSearchType" label="netease">网易云</el-radio>
+							<el-radio v-model="EnSearchType" label="kuguo">酷狗</el-radio>
+							<!-- <el-radio v-model="EnSearchType" label="baidu">百度</el-radio> -->
+							<el-radio v-model="EnSearchType" label="xiami">虾米</el-radio>
+						</template>
+					</el-col>
+				</el-col>
+			</el-row>
+			<el-row style="margin-top:20px;">
+				<el-col :span="8">
+					<el-input prefix-icon="el-icon-search" placeholder="搜索内容" v-model="EnKeyword" clearable>
+					</el-input>
+				</el-col>
+				<el-col :span="2">
+					&nbsp;&nbsp;<el-button icon="el-icon-search" @click="EnSearch" circle></el-button>
+
+				</el-col>
+				<el-col :span="2">
+
+					&nbsp;&nbsp;<el-button icon="el-icon-arrow-down" @click="NextMusic(1)" circle></el-button>
+				</el-col>
+				<el-col :span="2">
+
+					&nbsp;&nbsp;<el-button icon="el-icon-arrow-up" @click="NextMusic(-1)" circle></el-button>
+				</el-col>
+			</el-row>
+			<el-row>
+				<el-col style="margin-top:20px;">
+					<template>
+						<el-table :data="MusicList" stripe style="width: 100%">
+							<el-table-column prop="name" label="名称" width="280">
+							</el-table-column>
+							<el-table-column prop="artist" label="歌手" width="180">
+							</el-table-column>
+							<el-table-column prop="album" label="专辑">
+							</el-table-column>
+							<el-table-column label="操作">
+								<template slot-scope="scope">
+									<el-button @click="Search_Play(scope.row)">播放</el-button>
+								</template>
+							</el-table-column>
+						</el-table>
+					</template>
+				</el-col>
+			</el-row>
+		</el-dialog>
+	</div>
+</body>
+<script src="./js/Http.js" type="text/javascript"></script>
+<script type="text/javascript">
+	document.addEventListener("mousemove", function () {
+		vuex.screenTime = 0;
+	});
+
+	function myFunction(event) {
+		if (event.duration <= event.currentTime) {
+			if (event.paused) {
+				$(".str_row").fadeOut(1000);
+				vuex.play_img_st = "./img/播放.png";
+				vuex.$notify({
+					title: '温馨提示',
+					message: '当前音乐已结束',
+				});
+				vuex.music_val.music_time = 0.00;
+				return;
+			}
+		}
+		vuex.music_val.music_time = event.currentTime;
+		//  currentTime 属性返回视频/音频（audio/video）当前播放位置
+		let div = $("div[time=" + "by" + parseInt(event.currentTime) + "]");
+		if (div.length != 0) {
+			$(div).prev().prev().fadeOut(500); //使前面第二个元素淡出消失
+			$(div).prev().css({ "color": "#000", "font-size": "16px" }); //清除上一个元素的css样式
+			$(div).fadeIn(500);
+			$(div).css({ "color": "red", "font-size": "20px" }); //给当前元素添加css样式
+			$(div).next().fadeIn(500); //使下级元素淡入显示
+		}
+
+	}
+	//背景特效
+	!function () { function n(n, e, t) { return n.getAttribute(e) || t } function e(n) { return document.getElementsByTagName(n) } function t() { var t = e("script"), o = t.length, i = t[o - 1]; return { l: o, z: n(i, "zIndex", -1), o: n(i, "opacity", .5), c: n(i, "color", "0,0,0"), n: n(i, "count", 99) } } function o() { a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight } function i() { r.clearRect(0, 0, a, c); var n, e, t, o, m, l; s.forEach(function (i, x) { for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++)n = u[e], null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke())) }), x(i) } var a, c, u, m = document.createElement("canvas"), d = t(), l = "c_n" + d.l, r = m.getContext("2d"), x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (n) { window.setTimeout(n, 1e3 / 45) }, w = Math.random, y = { x: null, y: null, max: 2e4 }; m.id = l, m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o, e("body")[0].appendChild(m), o(), window.onresize = o, window.onmousemove = function (n) { n = n || window.event, y.x = n.clientX, y.y = n.clientY }, window.onmouseout = function () { y.x = null, y.y = null }; for (var s = [], f = 0; d.n > f; f++) { var h = w() * a, g = w() * c, v = 2 * w() - 1, p = 2 * w() - 1; s.push({ x: h, y: g, xa: v, ya: p, max: 6e3 }) } u = s.concat([y]), setTimeout(function () { i() }, 100) }();
+
+	var vuex = new Vue({
+		el: "#enroll",
+		data: {
+			show2: true,
+			tableData: [{
+				date: '2016-05-02',
+				name: '王小虎',
+				province: '上海',
+				city: '普陀区',
+				address: '上海市普陀区金沙江路 1518 弄',
+				zip: 200333,
+				tag: '家'
+			}, {
+				date: '2016-05-04',
+				name: '王小虎',
+				province: '上海',
+				city: '普陀区',
+				address: '上海市普陀区金沙江路 1517 弄',
+				zip: 200333,
+				tag: '公司'
+			}, {
+				date: '2016-05-01',
+				name: '王小虎',
+				province: '上海',
+				city: '普陀区',
+				address: '上海市普陀区金沙江路 1519 弄',
+				zip: 200333,
+				tag: '家'
+			}, {
+				date: '2016-05-03',
+				name: '王小虎',
+				province: '上海',
+				city: '普陀区',
+				address: '上海市普陀区金沙江路 1516 弄',
+				zip: 200333,
+				tag: '公司'
+			}],
+			dialogTableVisible: false,
+			EnSearchType: "netease",
+			EnKeyword: "",
+			MusicList: [],
+			urls: [
+				'./img/42121.gif',
+				'./img/download_20201126211513.jpg',
+				'./img/download_20201126211701.jpg',
+				'./img/download_20201126212211.jpg',
+				'./img/download_20200802232808.jpg',
+				'https://w.wallhaven.cc/full/2e/wallhaven-2em38y.jpg',
+				'https://w.wallhaven.cc/full/zm/wallhaven-zmm7mw.png'
+			],
+			play_img_st: "./img/播放.png",
+			screenTime: 0,
+			toolbar_li_show: false,
+			music_val: {
+				//定时器
+				runMusic: null,
+				//默认开始播放时间
+				music_time: 0.00,
+				//音乐总播放时
+				music_time_max: 100.00,
+				//默认音量
+				music_volume: 50,
+			},
+			pages: 1,
+			MusicInfo: {},
+		},
+		methods: {
+			NextMusic(value) {
+				this.pages = this.pages + value;
+				if (this.pages <= 1) {
+					this.pages = 1;
+				}
+				po = {
+					"keyword": this.EnKeyword,
+					"pages": this.pages,
+					"type": this.EnSearchType
+				}
+				this.MusicList = post("/music/emSearc", po, this);
+			},
+			EnSearch() {
+				if (this.EnKeyword === "")
+					return;
+				this.pages = 1;
+				po = {
+					"keyword": this.EnKeyword,
+					"pages": this.pages,
+					"type": this.EnSearchType
+				}
+				this.MusicList = post("/music/emSearc", po, this);
+				// console.log();
+			},
+			Search_Play(row) {
+				let _this = this;
+				po = {
+					"key": this.EnKeyword + "_" + this.EnSearchType + "_" + this.pages,
+					"pid": row.pic_id,
+					"type": this.EnSearchType,
+					"uid": row.url_id
+				}
+				this.MusicInfo = post("/music/emGetMusic", po, this);
+
+				let time = setInterval(function () {
+					if (_this.MusicInfo !== undefined) {
+						$("#music_lyrics").html("");
+						$("#music_lyrics").append(_this.MusicInfo.lyric);
+						$("#music")[0].pause();
+						_this.playMusic();
+						_this.dialogTableVisible = false;
+						clearInterval(time);
+					}
+
+				}, 1000);
+			},
+
+			updateMusicTime() { //修改当前播放时间
+				let _this = this;
+				let audio = document.querySelector("audio"); //获取音乐本体
+				audio.currentTime = parseFloat(this.music_val.music_time); //定位到指定播放时间
+				$(".str_row").fadeOut(1000);
+				clearInterval(_this.runMusic)
+				this.loadMusic();
+				if (audio.paused) { //如果音乐暂停了 则重新启动
+					this.play_img_st = "./img/播放 (1).png";
+					audio.play();
+				}
+			},
+			indexMethod(index) {
+				return index + 1;
+			},
+			loadMusic() { //播放加载
+				let _this = this;
+				let audio = document.querySelector("audio"); //获取音乐本体
+				_this.music_val.music_time_max = audio.duration; //获取当前音乐总时间 进行绑定
+				if (isNaN(_this.music_val.music_time_max)) {
+					this.$notify({
+						title: '温馨提示',
+						message: '当前音乐无法播放',
+					});
+					this.play_img_st = "./img/播放.png"
+					clearInterval(_this.runMusic)
+					uploadMusic.pause(); //停止
+				}
+				if ($(".str_row").size() <= 1) { //如果没有歌词 则append一个提示
+					$("#music_lyrics").append(`<div class="str_row" time="by10">当前歌曲没有歌词 将就听吧</div>`);
+				}
+			},
+			changeVolume() { //音量条 返回显示数据
+				document.getElementById("music").volume = this.music_val.music_volume / 100;
+			},
+			changeVolumeMeagess() { //监听音量如果>=80 则温馨提示
+				if (this.music_val.music_volume >= 80) {
+					this.$notify({
+						title: '温馨提示',
+						message: '声音太大会伤害耳朵 建议您调小点奥',
+					});
+				}
+			},
+			imgShow() { //音乐logo旋转动画
+				let _this = this;
+				_this.dialogTableVisible = !_this.dialogTableVisible;
+				_this.show2 = !_this.show2;
+				setTimeout(function () {
+					_this.show2 = !_this.show2;
+				}, 400)
+			},
+			formatTooltip(val) {  //音乐时间条 返回显示数据
+				let sum = val / 60;
+				return sum.toFixed(2) + " s";
+			},
+			toolbarLiShow() { //侧边控件显示控制
+				this.toolbar_li_show = !this.toolbar_li_show;
+			},
+			playMusic() { //音乐播放控制
+				let _this = this;
+				let uploadMusic = $("#music")[0]; //获取音乐本体
+
+				if (uploadMusic.paused) { //如果音乐没有播放 则进行播放
+					this.play_img_st = "./img/播放 (1).png";
+					this.loadMusic(); //调用音乐加载方法
+					uploadMusic.play(); //播放
+					_this.$notify({
+						title: '温馨提示',
+						message: '你打开了背景音乐',
+					});
+				} else { //如果音乐已播放 则停止播放
+					this.play_img_st = "./img/播放.png"
+					clearInterval(_this.runMusic)
+					uploadMusic.pause(); //停止
+					_this.$notify({
+						title: '温馨提示',
+						message: '你暂停了背景音乐',
+					});
+				}
+			}
+		},
+		mounted() {
+			let _this = this;
+			//创建默认播放音乐
+			_this.MusicInfo = {
+				album: "A Little Love",
+				artist: "冯曦妤",
+				img: "./img/109951163281530923.jpg",
+				lyric: "",
+				name: "Proud Of You",
+				pic_id: "109951163281530923",
+				source: "netease",
+				url: "./mp3/default_music.mp3",
+			}
+			setInterval(function () { //监听用户操作
+				_this.screenTime += 1;
+				if (_this.screenTime >= 300) {
+					// window.location.href = "enroll.html";
+				}
+			}, 1000);
+
+		},
+	});
+</script>
+
+</html>
